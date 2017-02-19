@@ -15,7 +15,6 @@ class OnlineTableViewController: UITableViewController {
     // MARK: Constants
     let userCell = "UserCell"
     let usersRef = FIRDatabase.database().reference(withPath: "online")
-    let auth = FIRAuth.auth()
     
     // MARK: Properties
     var currentUsers: [String] = []
@@ -63,9 +62,14 @@ class OnlineTableViewController: UITableViewController {
     // Allows the user to sign out when the sign out button is pressed.
     @IBAction func signoutButtonPressed(_ sender: AnyObject) {
         do {
-            try? auth?.signOut()
+            try! FIRAuth.auth()?.signOut()
             dismiss(animated: true, completion: nil)
             print("user signed out")
+            if FIRAuth.auth()?.currentUser != nil {
+                print("user is signed in")
+            } else {
+                print("user is not signed in")
+            }
         } catch {
             
         }
